@@ -1,4 +1,4 @@
-module swap PrgEnv-intel PrgEnv-gnu
+module swap PrgEnv-intel PrgEnv-cray
 module unload craype-haswell
 module load craype-mic-knl
 module load upcxx

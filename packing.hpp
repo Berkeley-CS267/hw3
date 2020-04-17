@@ -2,7 +2,10 @@
 
 #include <cassert>
 
+#ifndef KMER_LEN
 #define KMER_LEN 19
+#endif
+
 #define PACKED_KMER_LEN ((KMER_LEN+3)/4)
 
 bool packedCodeToFourMerCoded = false;
