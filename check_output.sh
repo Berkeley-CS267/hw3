@@ -1,5 +1,5 @@
 #!/bin/sh
-cat build/test*.dat | sort > student_solution.txt
+cat test*.dat | sort > student_solution.txt
 #rm build/test*.dat
 diff student_solution.txt /global/cscratch1/sd/gguidi/autograder/data/large_solution.txt > t.lis
 if [[ -s t.lis ]] ; then
