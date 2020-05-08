@@ -1,5 +1,7 @@
 #!/bin/sh
-'diff <(cat build/test*.dat | sort) /global/cscratch1/sd/gguidi/autograder/data/large_solution.txt' > t.lis
+cat build/test*.dat | sort > student_solution.txt
+#rm build/test*.dat
+diff student_solution.txt /global/cscratch1/sd/gguidi/autograder/data/large_solution.txt > t.lis
 if [[ -s t.lis ]] ; then
 	echo '0' > is_correct.txt # if return garbage
 else
