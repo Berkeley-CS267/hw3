@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     }
 
     if (argc < 2) {
-        BUtil::print("usage: srun -N nodes -n ranks ./kmer_hash kmer_file [verbose|test]\n");
+        BUtil::print("usage: srun -N nodes -n ranks ./kmer_hash kmer_file [verbose|test [prefix]]\n");
         upcxx::finalize();
         exit(1);
     }
@@ -35,6 +35,11 @@ int main(int argc, char** argv) {
 
     if (argc >= 3) {
         run_type = std::string(argv[2]);
+    }
+
+    std::string test_prefix = "test";
+    if (run_type == "test" && argc >= 4) {
+        test_prefix = std::string(argv[3]);
     }
 
     int ks = kmer_size(kmer_fname);
@@ -127,7 +132,7 @@ int main(int argc, char** argv) {
     }
 
     if (run_type == "test") {
-        std::ofstream fout("test_" + std::to_string(upcxx::rank_me()) + ".dat");
+        std::ofstream fout(test_prefix + "_" + std::to_string(upcxx::rank_me()) + ".dat");
         for (const auto& contig : contigs) {
             fout << extract_contig(contig) << std::endl;
         }
