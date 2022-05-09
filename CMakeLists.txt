@@ -6,9 +6,6 @@ find_package(UPCXX REQUIRED)
 # Group number
 set(GROUP_NAME "None" CACHE STRING "Your group name as it appears on bCourses (no spaces)")
 
-# K-mer length
-set(KMER_LEN "19" CACHE STRING "The length of the K-mers")
-
 # Packaging system
 if (NOT ${GROUP_NAME} STREQUAL None)
     set(CPACK_GENERATOR TGZ)
@@ -19,9 +16,14 @@ if (NOT ${GROUP_NAME} STREQUAL None)
 endif ()
 
 # Build the kmer_hash executable
-add_executable(kmer_hash kmer_hash.cpp)
-target_link_libraries(kmer_hash PRIVATE UPCXX::upcxx)
-target_compile_definitions(kmer_hash PRIVATE "KMER_LEN=${KMER_LEN}")
+add_executable(kmer_hash_19 kmer_hash.cpp)
+target_link_libraries(kmer_hash_19 PRIVATE UPCXX::upcxx)
+target_compile_definitions(kmer_hash_19 PRIVATE "KMER_LEN=19")
+
+# Build the kmer_hash executable
+add_executable(kmer_hash_51 kmer_hash.cpp)
+target_link_libraries(kmer_hash_51 PRIVATE UPCXX::upcxx)
+target_compile_definitions(kmer_hash_51 PRIVATE "KMER_LEN=51")
 
 # Copy the job scripts
 configure_file(job-cori-starter job-cori-starter COPYONLY)
