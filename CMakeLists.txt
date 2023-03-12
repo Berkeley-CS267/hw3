@@ -26,5 +26,5 @@ target_link_libraries(kmer_hash_51 PRIVATE UPCXX::upcxx)
 target_compile_definitions(kmer_hash_51 PRIVATE "KMER_LEN=51")
 
 # Copy the job scripts
-configure_file(job-cori-starter job-cori-starter COPYONLY)
+configure_file(job-perlmutter-starter job-perlmutter-starter COPYONLY)
 
