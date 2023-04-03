@@ -96,12 +96,11 @@ void unpackKmer(const unsigned char packed_kmer[PACKED_KMER_LEN], char* kmer) {
         packedCodeToFourMerCoded = true;
         init_LookupTable();
     }
-    int i = 0, j = 0;
-    for (; i < PACKED_KMER_LEN; i++, j += 4) {
+    for (int j = 0; j < PACKED_KMER_LEN; j++) {
         unsigned char block[4];
-        *(unsigned int*)block = packedCodeToFourMer[packed_kmer[i]];
-        for (int i = 0; i < 4; i++) {
-            (kmer + j)[i] = (char)block[i];
+        *(unsigned int*)block = packedCodeToFourMer[packed_kmer[j]];
+        for (int i = 0; i < 4 && i + (j << 2) < KMER_LEN; i++) {
+            (kmer + (j << 2))[i] = (char)block[i];
         }
     }
 }
