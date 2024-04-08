@@ -1,2 +1,2 @@
-module load contrib upcxx/2022.9.0
+module load contrib upcxx
 module load cmake
