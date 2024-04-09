@@ -8,6 +8,8 @@ struct HashMap {
     upcxx::global_ptr<kmer_pair> g_data_ptr;
     upcxx::global_ptr<int> g_used_ptr;
     upcxx::global_ptr<int> g_my_size_ptr;
+    
+    upcxx::atomic_domain<int> ad;
 
     std::vector<kmer_pair> data;
     std::vector<int> used;
@@ -21,8 +23,8 @@ struct HashMap {
 
     // Most important functions: insert and retrieve
     // k-mers from the hash table.
-    bool insert(const kmer_pair& kmer);
-    bool find(const pkmer_t& key_kmer, kmer_pair& val_kmer);
+    bool insert(const kmer_pair& kmer, upcxx::atomic_domain<int>* atomic_domain);
+    bool find(const pkmer_t& key_kmer, kmer_pair& val_kmer, upcxx::atomic_domain<int>* atomic_domain);
 
     // Helper functions
     uint64_t get_target_rank(const kmer_pair& kmer);
@@ -46,7 +48,7 @@ HashMap::HashMap(size_t size) {
     used.resize(size, 0);
 }
 
-bool HashMap::insert(const kmer_pair& kmer) {
+bool HashMap::insert(const kmer_pair& kmer, upcxx::atomic_domain<int>* atomic_domain) {
     uint64_t hash = kmer.hash();
     uint64_t probe = 0;
     bool success = false;
@@ -60,7 +62,7 @@ bool HashMap::insert(const kmer_pair& kmer) {
     return success;
 }
 
-bool HashMap::find(const pkmer_t& key_kmer, kmer_pair& val_kmer) {
+bool HashMap::find(const pkmer_t& key_kmer, kmer_pair& val_kmer, upcxx::atomic_domain<int>* atomic_domain) {
     uint64_t hash = key_kmer.hash();
     uint64_t probe = 0;
     bool success = false;
