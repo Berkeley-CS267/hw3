@@ -80,8 +80,7 @@ int main(int argc, char** argv) {
 
     std::vector<kmer_pair> start_nodes;
 
-    for (int i = upcxx::rank_me(); i < start_nodes.size(); i += upcxx::rank_n()){
-        auto& kmer = kmers[i];
+    for (auto& kmer : kmers) {
         bool success = hashmap.insert(kmer, &ad);
         if (!success) {
             throw std::runtime_error("Error: HashMap is full!");

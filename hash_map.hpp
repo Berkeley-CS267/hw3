@@ -98,7 +98,7 @@ bool HashMap::slot_used(uint64_t slot, uint64_t target_rank) {
     upcxx::global_ptr<int> target_used_ptr = g_used_ptr.fetch(target_rank).wait();
     if (target_used_ptr.is_local()) {
         // Downcast if this is local, saves times
-        return target_used_ptr.local()[slot];
+        return target_used_ptr.local()[slot] != 0;
     }
     return upcxx::rget(target_used_ptr + slot).wait() != 0; 
 }
