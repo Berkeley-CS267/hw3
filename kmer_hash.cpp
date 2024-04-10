@@ -80,7 +80,8 @@ int main(int argc, char** argv) {
 
     std::vector<kmer_pair> start_nodes;
 
-    for (auto& kmer : kmers) {
+    for (int i = upcxx::rank_me(); i < start_nodes.size(); i += upcxx::rank_n()){
+        auto& kmer = kmers[i];
         bool success = hashmap.insert(kmer, &ad);
         if (!success) {
             throw std::runtime_error("Error: HashMap is full!");
@@ -90,6 +91,10 @@ int main(int argc, char** argv) {
             start_nodes.push_back(kmer);
         }
     }
+
+    //Wait for RMA writes to complete
+    hashmap.wait_for_insert_completions();
+
     auto end_insert = std::chrono::high_resolution_clock::now();
     upcxx::barrier();
 
