@@ -68,6 +68,8 @@ int main(int argc, char** argv) {
         BUtil::print("Finished reading kmers.\n");
     }
 
+    upcxx::barrier();
+
     auto start = std::chrono::high_resolution_clock::now();
 
     std::vector<kmer_pair> start_nodes;
