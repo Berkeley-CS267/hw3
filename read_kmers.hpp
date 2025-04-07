@@ -64,7 +64,7 @@ std::vector<kmer_pair> read_kmers(const std::string& fname, int nprocs = 1, int 
     const size_t line_len = KMER_LEN + 4;
     fseek(f, line_len * start, SEEK_SET);
 
-    std::shared_ptr<char> buf(new char[line_len * size]);
+    std::shared_ptr<char[]> buf(new char[line_len * size]);
     fread(buf.get(), sizeof(char), line_len * size, f);
 
     std::vector<kmer_pair> kmers;
